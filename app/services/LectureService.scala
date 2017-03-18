@@ -1,24 +1,32 @@
 package services
 
 import models.{Lecture, Teacher}
-import scalikejdbc.{AutoSession, DBSession}
+import org.joda.time.LocalDateTime
+import repository.{MixInLectureRepository, UsesLectureRepository}
 
 /**
  * Created by benevolent0505 on 17/03/15.
  */
 
-trait LectureService {
+trait LectureService extends UsesLectureRepository {
 
-  def create(lecture: Lecture)(implicit s: DBSession = AutoSession): Lecture
+  def create(name: String, teacherName: String, category: String, period: Int, remark: String, isGraduate: Boolean,
+             createdAt: LocalDateTime = LocalDateTime.now): Lecture = {
+    if (name.isEmpty) throw new Exception("name is empty")
+    if (findByName(name).exists(_.teacher.get.name == teacherName)) throw new Exception(s"$name is already created")
 
-  def findByTeacher(teacher: Teacher)(implicit s: DBSession = AutoSession): Seq[Lecture]
-
-  def findByName(name: String)(implicit s: DBSession = AutoSession): Seq[Lecture]
-}
-
-class LectureServiceImpl {
-
-  def create(): Unit = {
-
+    val teacher = TeacherServiceImpl.findOrCreateByName(teacherName)
+    lectureRepository.insert(Lecture(name, Some(teacher), category, period, remark, isGraduate, createdAt))
   }
+
+  def findById(id: Long): Option[Lecture] =
+    lectureRepository.find(id)
+
+  def findByName(name: String): Seq[Lecture] =
+    lectureRepository.find(name)
+
+  def findByTeacher(teacher: Teacher): Seq[Lecture] =
+    lectureRepository.find(teacher)
 }
+
+object LectureService extends LectureService with MixInLectureRepository

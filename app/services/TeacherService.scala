@@ -32,4 +32,4 @@ trait TeacherService {
   }
 }
 
-class TeacherServiceImpl extends TeacherService with TeacherRepositoryImpl
+object TeacherServiceImpl extends TeacherService with TeacherRepositoryImpl
