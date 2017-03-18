@@ -17,7 +17,7 @@ create table Lectures (
   created_at timestamp not null
 );
 
-create table CancelledDates (
+create table KyukoDays (
   id bigserial unique primary key,
   lecture_id bigint primary key,
   date timestamp not null,
@@ -28,4 +28,4 @@ create table CancelledDates (
 
 drop table Teachers;
 drop table Lectures;
-drop table CancelledDates;
+drop table KyukoDays;
