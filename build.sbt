@@ -18,6 +18,8 @@ libraryDependencies ++= Seq(
   "net.ruippeixotog" %% "scala-scraper" % "1.2.0",
   "net.databinder.dispatch" %% "dispatch-core" % "0.11.2",
 
+  "com.enragedginger" %% "akka-quartz-scheduler" % "1.6.0-akka-2.4.x",
+
   "ch.qos.logback" % "logback-classic" % "1.2.1",
 
   "org.scalactic"          %% "scalactic"          % "3.0.1",

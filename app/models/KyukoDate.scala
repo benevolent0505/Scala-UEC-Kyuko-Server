@@ -7,14 +7,14 @@ import org.joda.time.LocalDateTime
  */
 case class KyukoDate (
   id: Long,
-  lecture: Option[Lecture],
+  lecture: Lecture,
   date: LocalDateTime,
   createdAt: LocalDateTime
 )
 
 object KyukoDate {
   def apply(
-    lecture: Option[Lecture],
+    lecture: Lecture,
     date: LocalDateTime,
     createdAt: LocalDateTime
   ): KyukoDate = new KyukoDate(0l, lecture, date, createdAt)
