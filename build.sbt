@@ -21,8 +21,9 @@ libraryDependencies ++= Seq(
 
   "ch.qos.logback" % "logback-classic" % "1.2.1",
 
-  "org.webjars" % "bootstrap" % "3.3.7",
-  "org.webjars" % "bootstrap-sass" % "3.3.7",
+  "org.webjars"       % "bootstrap"          % "3.3.7",
+  "org.webjars"       % "bootstrap-sass"     % "3.3.7",
+  "org.webjars"       % "fullcalendar"       % "3.0.0",
 
   "org.scalactic"          %% "scalactic"          % "3.0.1",
   "org.scalatest"          %% "scalatest"          % "3.0.1" % "test",
