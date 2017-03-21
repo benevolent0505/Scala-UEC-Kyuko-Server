@@ -30,6 +30,11 @@ trait TeacherService {
   def findByName(name: String): Option[Teacher] = {
     find(name)
   }
+
+  def getByPage(page: Int = 1): Seq[Teacher] =
+    select((page - 1) * defaultLimit)
+
+  def getCount(): Long = count()
 }
 
 object TeacherServiceImpl extends TeacherService with TeacherRepositoryImpl

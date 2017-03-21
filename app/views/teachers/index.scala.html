@@ -1,0 +1,14 @@
+@import components.pagination
+
+@(teachers: Seq[Teacher], page: Int, max: Int)
+@main(title = "教員一覧") {
+  <h1>教員一覧</h1>
+
+  <ul>
+  @for(teacher <- teachers) {
+    <li><a href="/teachers/@teacher.id">@teacher.name</a></li>
+  }
+  </ul>
+
+  @pagination(page, max)
+}

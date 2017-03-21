@@ -1,0 +1,17 @@
+@(teacher: Teacher, lectures: Seq[Lecture])
+@main(title = teacher.name) {
+  <h1>@teacher.name 先生</h1>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">担当授業一覧</h3>
+    </div>
+    <div class="panel-body">
+      <ul class="list-group">
+      @for(lecture <- lectures) {
+        <li class="list-group-item"><a href="/lectures/@lecture.id">@lecture.name</a></li>
+      }
+      </ul>
+    </div>
+  </div>
+}
