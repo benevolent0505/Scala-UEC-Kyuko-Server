@@ -13,6 +13,11 @@ trait UsesLectureRepository {
 }
 
 trait LectureRepository {
+
+  val defaultOffset: Int
+
+  val defaultLimit: Int
+
   def insert (lecture: Lecture): Lecture
 
   def find(id: Long): Option[Lecture]
@@ -20,6 +25,10 @@ trait LectureRepository {
   def find(name: String): Seq[Lecture]
 
   def find(teacher: Teacher): Seq[Lecture]
+
+  def select(offset: Int = defaultOffset, limit: Int = defaultLimit): Seq[Lecture]
+
+  def count(): Long
 }
 
 trait MixInLectureRepository {
@@ -39,6 +48,10 @@ object LectureRepositoryImpl extends LectureRepository {
       rs.jodaLocalDateTime("created_at")
     )
   }
+
+  val defaultOffset = 0
+
+  val defaultLimit = 20
 
   def insert(lecture: Lecture): Lecture = DB localTx { implicit s =>
     val id =
@@ -62,5 +75,13 @@ object LectureRepositoryImpl extends LectureRepository {
 
   def find(teacher: Teacher): Seq[Lecture] = DB readOnly { implicit s =>
     sql"""select * from Lectures where teacher_id = ${teacher.id}""".map(*).list().apply()
+  }
+
+  def select(offset: Int = defaultOffset, limit: Int = defaultLimit): Seq[Lecture] = DB readOnly { implicit s =>
+    sql"""select * from Lectures order by id  offset ${offset} limit ${limit}""".map(*).list().apply()
+  }
+
+  def count(): Long = DB readOnly { implicit s =>
+    sql"""select count(1) from Lectures""".map(_.long(1)).single().apply().get
   }
 }
