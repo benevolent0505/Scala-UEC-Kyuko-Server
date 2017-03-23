@@ -23,6 +23,6 @@ class LectureController extends Controller {
     LectureService.findById(id).map { lecture =>
       val kyukoDays = KyukoService.findByLecture(lecture)
       Ok(views.html.lectures.show(lecture, kyukoDays))
-    }.getOrElse(NotFound)
+    }.getOrElse(NotFound("存在しないIDです"))
   }
 }

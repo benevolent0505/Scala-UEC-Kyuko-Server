@@ -2,6 +2,7 @@ package controllers
 
 import models.KyukoDate
 import org.joda.time.LocalDateTime
+import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc.{Action, Controller}
 import services.KyukoService
@@ -32,9 +33,25 @@ class KyukoAPIController extends Controller {
     )
   }
 
+  // カレンダー表示用のAPIエンドポイントなのでエラーはログに残したいが穏便に処理はしたい
   def getKyukoEvents(start: Option[String], end: Option[String]) = Action {
-    val startTime = start.map(LocalDateTime.parse).getOrElse(LocalDateTime.now)
-    val endTime = end.map(LocalDateTime.parse).getOrElse(LocalDateTime.now)
+    def parseLocalDateTime(datetime: String): Either[IllegalArgumentException, LocalDateTime] = {
+      try {
+        Right(LocalDateTime.parse(datetime))
+      } catch {
+        case e: IllegalArgumentException => Left(e)
+      }
+    }
+
+    val startTime = start.map(parseLocalDateTime(_) match {
+      case Right(date) => date
+      case Left(e) => Logger.error(e.getMessage); LocalDateTime.now
+    }).getOrElse(LocalDateTime.now)
+    val endTime = end.map(parseLocalDateTime(_) match {
+      case Right(date) => date
+      case Left(e) => Logger.error(e.getMessage); LocalDateTime.now
+    }).getOrElse(LocalDateTime.now)
+
     val events = KyukoService.findByRange(startTime, endTime).map(Event.apply)
 
     Ok(Json.toJson(events))

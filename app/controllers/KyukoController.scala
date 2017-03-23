@@ -1,6 +1,6 @@
 package controllers
 
-import org.joda.time.LocalDateTime
+import org.joda.time.{IllegalFieldValueException, LocalDateTime}
 import play.api.mvc.{Action, Controller}
 import services.KyukoService
 
@@ -14,9 +14,18 @@ class KyukoController extends Controller {
   }
 
   def show(year: Int, mon: Int, day: Int) = Action {
-    val date = new LocalDateTime(year, mon, day, 0, 0)
-    val lectures = KyukoService.findByDate(date).map(_.lecture)
+    val date = try {
+      new Right(new LocalDateTime(year, mon, day, 0, 0))
+    } catch {
+      case e: IllegalFieldValueException => Left(e)
+    }
 
-    Ok(views.html.kyuko.show(date, lectures))
+    date match {
+      case Right(date) => {
+        val lectures = KyukoService.findByDate(date).map(_.lecture)
+        Ok(views.html.kyuko.show(date, lectures))
+      }
+      case Left(e) => BadRequest(e.getMessage)
+    }
   }
 }
