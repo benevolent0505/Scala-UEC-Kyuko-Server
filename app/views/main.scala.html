@@ -15,18 +15,26 @@
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
   </head>
   <body>
-    <header class="navbar navbar-fixed-top navbar-inverse">
-      <div class="container">
-        <a href="@routes.HomeController.index" id="logo">UEC 休講情報</a>
-        <nav>
+    <nav class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="@routes.HomeController.index" id="logo" class="navbar-brand">UEC 休講情報</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="@routes.HomeController.index">トップ</a></li>
             <li><a href="@routes.HomeController.about">このサイトについて</a></li>
             <li><a href="@routes.HomeController.source">電気通信大学休講情報 - 公式</a></li>
           </ul>
-        </nav>
+        </div>
       </div>
-    </header>
+    </nav>
 
     <div class="container">
       @content
