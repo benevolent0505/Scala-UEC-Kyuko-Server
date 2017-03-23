@@ -1,0 +1,32 @@
+@(lecture: Lecture, kyukoDays: Seq[KyukoDate])
+@main(title = lecture.name) {
+  <h1>@lecture.name</h1>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">授業情報</h3>
+    </div>
+    <div class="panel-body">
+      @if(lecture.teacher.isDefined) {
+        <p>担当教員 : <a href="/teachers/@lecture.teacher.get.id">@lecture.teacher.get.name 先生</a></p>
+      } else {
+        <p>教員不明</p>
+      }
+      <p>クラス : @lecture.category</p>
+      <p>時限 : @lecture.period</p>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">休講日一覧</h3>
+    </div>
+    <div class="panel-body">
+      <ul class="list-group">
+      @for(day <- kyukoDays) {
+        <li class="list-group-item">@day.date.toLocalDate</li>
+      }
+      </ul>
+    </div>
+  </div>
+}

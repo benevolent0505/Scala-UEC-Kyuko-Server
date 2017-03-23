@@ -1,0 +1,16 @@
+@import org.joda.time.LocalDateTime
+@import org.joda.time.format.DateTimeFormat
+
+@(date: LocalDateTime , lectures: Seq[Lecture])
+@main(title = s"${date.toString(DateTimeFormat.fullDate)}の休講") {
+
+  @if(lectures.isEmpty) {
+    <p>この日休講の授業はありません</p>
+  } else {
+    <ul>
+    @for(lecture <- lectures) {
+      <li><a href="/lectures/@lecture.id">@lecture.name</a></li>
+    }
+    </ul>
+  }
+}

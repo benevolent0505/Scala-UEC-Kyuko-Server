@@ -1,0 +1,19 @@
+@(page: Int = 1, max: Int = 1)
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="?page=@{page - 1}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    @for(i <- List(page - 2, 1).max to List(page + 2, max).min) {
+      <li><a href="?page=@i">@i</a></li>
+    }
+    <li>
+      <a href="?page=@{page + 1}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

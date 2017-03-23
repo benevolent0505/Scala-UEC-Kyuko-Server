@@ -27,6 +27,11 @@ trait LectureService extends UsesLectureRepository {
 
   def findByTeacher(teacher: Teacher): Seq[Lecture] =
     lectureRepository.find(teacher)
+
+  def getByPage(page: Int = 1): Seq[Lecture] =
+    lectureRepository.select((page - 1) * lectureRepository.defaultLimit)
+
+  def count(): Long = lectureRepository.count()
 }
 
 object LectureService extends LectureService with MixInLectureRepository

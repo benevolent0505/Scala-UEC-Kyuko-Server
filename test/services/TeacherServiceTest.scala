@@ -33,6 +33,13 @@ class TeacherServiceTest extends FlatSpec {
         case _ => None
       }
     }
+
+    val defaultOffset: Int = 0
+    val defaultLimit: Int = 20
+
+    def select(offset: Int, limit: Int): Seq[Teacher] = ???
+
+    def count(): Long = 1
   }
 
   it should "create a teacher by name and createdAt" in {

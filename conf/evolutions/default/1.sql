@@ -19,9 +19,9 @@ create table Lectures (
 
 create table KyukoDays (
   id bigserial unique primary key,
-  lecture_id bigint primary key,
+  lecture_id bigint not null,
   date timestamp not null,
-  created_at timestamp not null,
+  created_at timestamp not null
 );
 
 # --- !Downs

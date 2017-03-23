@@ -17,6 +17,15 @@ trait KyukoService extends UsesKyukoRepository {
   def store(list: Seq[(Teacher, Lecture, KyukoDate)]): Seq[(Teacher, Lecture, KyukoDate)] =
     kyukoRepository.store(list)
 
+  def findByDate(date: LocalDateTime): Seq[KyukoDate] =
+    kyukoRepository.find(date)
+
+  def findByRange(start: LocalDateTime, end: LocalDateTime): Seq[KyukoDate] =
+    kyukoRepository.find(start, end)
+
+  def findByLecture(lecture: Lecture): Seq[KyukoDate] =
+    kyukoRepository.find(lecture)
+
   def findByLectureAndDate(lecture: Lecture, date: LocalDateTime): Option[KyukoDate] =
     kyukoRepository.find(lecture, date)
 }
