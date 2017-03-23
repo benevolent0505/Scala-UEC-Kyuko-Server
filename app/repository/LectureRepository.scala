@@ -43,7 +43,6 @@ object LectureRepositoryImpl extends LectureRepository {
       TeacherServiceImpl.findById(rs.long("teacher_id")),
       rs.string("category"),
       rs.int("period"),
-      rs.string("remark"),
       rs.boolean("graduate"),
       rs.jodaLocalDateTime("created_at")
     )
@@ -57,12 +56,12 @@ object LectureRepositoryImpl extends LectureRepository {
     val id =
       sql"""
            insert into Lectures
-             (name, teacher_id, category, period, remark, graduate, created_at)
+             (name, teacher_id, category, period, graduate, created_at)
            values
-             (${lecture.name}, ${lecture.teacher.get.id}, ${lecture.category}, ${lecture.period}, ${lecture.remark}, ${lecture.isGraduate}, ${lecture.createdAt})
+             (${lecture.name}, ${lecture.teacher.get.id}, ${lecture.category}, ${lecture.period}, ${lecture.isGraduate}, ${lecture.createdAt})
         """.updateAndReturnGeneratedKey.apply()
 
-    Lecture(id = id, lecture.name, lecture.teacher, lecture.category, lecture.period, lecture.remark, lecture.isGraduate, lecture.createdAt)
+    Lecture(id = id, lecture.name, lecture.teacher, lecture.category, lecture.period, lecture.isGraduate, lecture.createdAt)
   }
 
   def find(id: Long): Option[Lecture] = DB readOnly { implicit s =>

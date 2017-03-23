@@ -11,7 +11,6 @@ case class Lecture (
   teacher: Option[Teacher],
   category: String,
   period: Int,
-  remark: String,
   isGraduate: Boolean,
   createdAt: LocalDateTime
 )
@@ -22,8 +21,7 @@ object Lecture {
     teacher: Option[Teacher],
     category: String,
     period: Int,
-    remark: String,
     isGraduate: Boolean,
     createdAt: LocalDateTime
-  ): Lecture = new Lecture(0l, name, teacher, category, period, remark, isGraduate, createdAt)
+  ): Lecture = new Lecture(0l, name, teacher, category, period, isGraduate, createdAt)
 }
