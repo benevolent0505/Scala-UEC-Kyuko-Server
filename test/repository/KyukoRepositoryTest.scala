@@ -29,6 +29,7 @@ class KyukoRepositoryTest extends FlatSpec {
     assert(lecture.period === period.toInt)
 
     assert(kyukoDay.date === new LocalDateTime(2016, 10, 6, 0, 0))
+    assert(kyukoDay.remark === remark)
   }
 
   it should "convert list of teacher, lecture and kyuko_day from kyuko page" in {
@@ -64,6 +65,7 @@ class KyukoRepositoryTest extends FlatSpec {
       assert(lecture.category === test("category"))
 
       assert(kyukoDate.date === test("kyuko_date"))
+      assert(kyukoDate.remark === test("remark"))
     }
   }
 }
