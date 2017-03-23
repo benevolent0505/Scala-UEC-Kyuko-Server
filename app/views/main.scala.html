@@ -1,6 +1,6 @@
 @import components.footer
 
-@(title: String)(content: Html)
+@(title: String, scripts: Html = Html(""), styles: Html = Html(""))(content: Html)
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -11,6 +11,7 @@
 
     <title>@title - UEC 休講情報</title>
     <link href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+    @styles
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
   </head>
   <body>
@@ -34,5 +35,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script data-main="@routes.Assets.versioned("javascripts/main.js")" src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.min.js")"></script>
+    @scripts
   </body>
 </html>

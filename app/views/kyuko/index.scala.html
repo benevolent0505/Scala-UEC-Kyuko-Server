@@ -1,0 +1,22 @@
+@styles = {
+  <link rel="stylesheet" href="@routes.Assets.versioned("lib/fullcalendar/fullcalendar.css")">
+}
+
+@scripts = {
+  <script data-main="@routes.Assets.versioned("javascripts/main.js")" src="@routes.Assets.versioned("lib/momentjs/min/moment.min.js")"></script>
+  <script data-main="@routes.Assets.versioned("javascripts/main.js")" src="@routes.Assets.versioned("lib/fullcalendar/fullcalendar.js")"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#calendar').fullCalendar({
+        events: '/api/kyuko'
+      });
+    });
+  </script>
+}
+
+@main(title = "休講一覧", scripts, styles) {
+  <h1>休講一覧</h1>
+
+  <div id='calendar'></div>
+}

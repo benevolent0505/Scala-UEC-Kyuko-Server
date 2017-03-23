@@ -28,6 +28,8 @@ trait UsesKyukoRepository {
 trait KyukoRepository {
   def find(date: LocalDateTime): Seq[KyukoDate]
 
+  def find(start: LocalDateTime, end: LocalDateTime): Seq[KyukoDate]
+
   def find(lecture: Lecture): Seq[KyukoDate]
 
   def find(teacher: Teacher): Seq[KyukoDate]
@@ -66,6 +68,10 @@ object KyukoRepositoryImpl extends KyukoRepository {
 
   def find(date: LocalDateTime): Seq[KyukoDate] = DB readOnly { implicit s =>
     sql"""select * from KyukoDays where date = ${date}""".map(*).list().apply()
+  }
+
+  def find(start: LocalDateTime, end: LocalDateTime) = DB readOnly { implicit s =>
+    sql"""select * from KyukoDays where date between ${start} and ${end}""".map(*).list().apply()
   }
 
   def find(lecture: Lecture): Seq[KyukoDate] = DB readOnly { implicit s =>
@@ -110,7 +116,6 @@ object KyukoRepositoryImpl extends KyukoRepository {
     val now = LocalDateTime.now.toString(DateTimeFormat.forPattern("yyyy/MM/dd HH:mm:ss"))
     val updatedString = doc.body.children.find(_.text.startsWith("ページ更新日")).map(_.text)
       .getOrElse(s"ページ更新日：$now")
-    println(updatedString)
 
     if (!isNoSchedule && items.isDefined) {
       items.get.tail

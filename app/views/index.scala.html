@@ -1,3 +1,22 @@
+@(lectures: Seq[Lecture])
 @main("Home") {
   <h1>UEC休講情報</h1>
+
+  @if(lectures.nonEmpty) {
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">休講日一覧</h3>
+      </div>
+      <div class="panel-body">
+        <ul class="list-group">
+        @for(lecture <- lectures) {
+          <li class="list-group-item"><a href="/lectures/@lecture.id">@lecture.name</a></li>
+        }
+        </ul>
+      </div>
+    </div>
+  } else {
+    <h2>今日の休講はありません</h2>
+  }
+  <p><button class="btn btn-primary btn-lg" href="/kyuko">休講一覧を見る</button></p>
 }

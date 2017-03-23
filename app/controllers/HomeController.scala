@@ -1,14 +1,19 @@
 package controllers
 
 import javax.inject._
-import play.api._
+
+import org.joda.time.LocalDateTime
 import play.api.mvc._
+import services.KyukoService
 
 @Singleton
 class HomeController @Inject() extends Controller {
 
   def index = Action {
-    Ok(views.html.index())
+    val today = LocalDateTime.now
+    val lectures = KyukoService.findByRange(today, today).map(_.lecture)
+
+    Ok(views.html.index(lectures))
   }
 
   def about = Action {

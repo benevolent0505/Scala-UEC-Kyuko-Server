@@ -23,7 +23,8 @@ libraryDependencies ++= Seq(
 
   "org.webjars"       % "bootstrap"          % "3.3.7",
   "org.webjars"       % "bootstrap-sass"     % "3.3.7",
-  "org.webjars"       % "fullcalendar"       % "3.0.0",
+  "org.webjars.bower" % "fullcalendar"       % "3.2.0",
+  "org.webjars"       % "momentjs"           % "2.17.1",
 
   "org.scalactic"          %% "scalactic"          % "3.0.1",
   "org.scalatest"          %% "scalatest"          % "3.0.1" % "test",
