@@ -51,6 +51,7 @@ object KyukoRepositoryImpl extends KyukoRepository {
     rs.long("id"),
     LectureService.findById(rs.long("lecture_id")).get,
     rs.jodaLocalDateTime("date"),
+    rs.string("remark"),
     rs.jodaLocalDateTime("created_at")
   )
 
@@ -58,12 +59,12 @@ object KyukoRepositoryImpl extends KyukoRepository {
     val id =
       sql"""
            insert into KyukoDays
-             (lecture_id, date, created_at)
+             (lecture_id, date, remark, created_at)
            values
-             (${kyukoDate.lecture.id}, ${kyukoDate.date}, ${kyukoDate.createdAt})
+             (${kyukoDate.lecture.id}, ${kyukoDate.date}, ${kyukoDate.remark} ${kyukoDate.createdAt})
         """.updateAndReturnGeneratedKey.apply()
 
-    KyukoDate(id = id, kyukoDate.lecture, kyukoDate.date, kyukoDate.createdAt)
+    KyukoDate(id = id, kyukoDate.lecture, kyukoDate.date, kyukoDate.remark, kyukoDate.createdAt)
   }
 
   def find(date: LocalDateTime): Seq[KyukoDate] = DB readOnly { implicit s =>
@@ -99,11 +100,11 @@ object KyukoRepositoryImpl extends KyukoRepository {
   def store(list: Seq[(Teacher, Lecture, KyukoDate)]): Seq[(Teacher, Lecture, KyukoDate)] = {
     list.map { case (teacher, lecture, kyukoDate) =>
       val l = LectureService.findByName(lecture.name).find(_.teacher.get.name == teacher.name).getOrElse(
-        LectureService.create(lecture.name, teacher.name, lecture.category, lecture.period, lecture.remark, lecture.isGraduate, LocalDateTime.now)
+        LectureService.create(lecture.name, teacher.name, lecture.category, lecture.period, lecture.isGraduate, LocalDateTime.now)
       )
       val t = TeacherServiceImpl.findOrCreateByName(teacher.name)
       val k = find(l, kyukoDate.date).getOrElse(
-        insert(KyukoDate(l, kyukoDate.date, kyukoDate.createdAt))
+        insert(KyukoDate(l, kyukoDate.date, kyukoDate.remark, kyukoDate.createdAt))
       )
       (t, l, k)
     }
@@ -154,8 +155,8 @@ object KyukoRepositoryImpl extends KyukoRepository {
     val date = new LocalDateTime(year, month.toInt, day.toInt, 0, 0)
 
     val teacher = Teacher(teacherName, LocalDateTime.now)
-    val lecture = Lecture(name, Some(teacher), category, period, remark, isGraduate, LocalDateTime.now)
-    val kyukoDate = KyukoDate(lecture, date, LocalDateTime.now)
+    val lecture = Lecture(name, Some(teacher), category, period, isGraduate, LocalDateTime.now)
+    val kyukoDate = KyukoDate(lecture, date, remark, LocalDateTime.now)
 
     (teacher, lecture, kyukoDate)
   }

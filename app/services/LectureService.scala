@@ -10,13 +10,13 @@ import repository.{MixInLectureRepository, UsesLectureRepository}
 
 trait LectureService extends UsesLectureRepository {
 
-  def create(name: String, teacherName: String, category: String, period: Int, remark: String, isGraduate: Boolean,
+  def create(name: String, teacherName: String, category: String, period: Int, isGraduate: Boolean,
              createdAt: LocalDateTime = LocalDateTime.now): Lecture = {
     if (name.isEmpty) throw new Exception("name is empty")
     if (findByName(name).exists(_.teacher.get.name == teacherName)) throw new Exception(s"$name is already created")
 
     val teacher = TeacherServiceImpl.findOrCreateByName(teacherName)
-    lectureRepository.insert(Lecture(name, Some(teacher), category, period, remark, isGraduate, createdAt))
+    lectureRepository.insert(Lecture(name, Some(teacher), category, period, isGraduate, createdAt))
   }
 
   def findById(id: Long): Option[Lecture] =

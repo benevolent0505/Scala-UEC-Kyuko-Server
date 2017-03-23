@@ -28,6 +28,7 @@ libraryDependencies ++= Seq(
 
   "org.scalactic"          %% "scalactic"          % "3.0.1",
   "org.scalatest"          %% "scalatest"          % "3.0.1" % "test",
+  "org.scalikejdbc"        %% "scalikejdbc-test"   % "2.5.1" % "test",
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
 )
 
