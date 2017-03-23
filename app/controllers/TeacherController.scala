@@ -24,6 +24,6 @@ class TeacherController extends Controller {
     TeacherServiceImpl.findById(id).map { teacher =>
       val lectures = LectureService.findByTeacher(teacher)
       Ok(views.html.teachers.show(teacher, lectures))
-    }.getOrElse(NotFound)
+    }.getOrElse(NotFound("存在しないIDです"))
   }
 }
