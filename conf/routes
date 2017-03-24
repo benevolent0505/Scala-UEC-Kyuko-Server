@@ -12,7 +12,7 @@ GET     /source                     controllers.HomeController.source()
 GET     /kyuko                      controllers.KyukoController.index()
 GET     /kyuko/:year/:mon/:day      controllers.KyukoController.show(year: Int, mon: Int, day: Int)
 # For FullCalendar API
-GET     /api/kyuko                  controllers.KyukoAPIController.getKyukoEvents(start: Option[String], end: Option[String])
+GET     /api/kyuko/events           controllers.KyukoAPIController.getKyukoEvents(start: Option[String], end: Option[String])
 
 GET     /teachers                   controllers.TeacherController.index(page: Int ?= 1)
 GET     /teachers/:id               controllers.TeacherController.show(id: Long)
