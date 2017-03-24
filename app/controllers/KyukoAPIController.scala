@@ -63,14 +63,6 @@ class KyukoAPIController extends Controller {
 
   // カレンダー表示用のAPIエンドポイントなのでエラーはログに残したいが穏便に処理はしたい
   def getKyukoEvents(start: Option[String], end: Option[String]) = Action {
-    def parseLocalDateTime(datetime: String): Either[IllegalArgumentException, LocalDateTime] = {
-      try {
-        Right(LocalDateTime.parse(datetime))
-      } catch {
-        case e: IllegalArgumentException => Left(e)
-      }
-    }
-
     val startTime = start.map(parseLocalDateTime(_) match {
       case Right(date) => date
       case Left(e) => Logger.error(e.getMessage); LocalDateTime.now
@@ -85,6 +77,26 @@ class KyukoAPIController extends Controller {
     Ok(Json.toJson(events))
   }
 
+  def getKyuko(start: Option[String], end: Option[String], schoolStr: Option[String]) = Action {
+    val startTime = start.map(parseLocalDateTime(_) match {
+      case Right(date) => date
+      case Left(e) => Logger.error(e.getMessage); LocalDateTime.now
+    }).getOrElse(LocalDateTime.now)
+    val endTime = end.map(parseLocalDateTime(_) match {
+      case Right(date) => date
+      case Left(e) => Logger.error(e.getMessage); LocalDateTime.now
+    }).getOrElse(LocalDateTime.now)
+
+    val isGraduate = schoolStr match {
+      case Some("graduate") => true
+      case _ => false
+    }
+
+    val kyukoList = KyukoService.findByRange(startTime, endTime).filter(_.lecture.isGraduate == isGraduate)
+
+    Ok(Json.toJson(kyukoList))
+  }
+
   def getCurrentKyuko(schoolStr: Option[String]) = Action.async {
     val school = schoolStr match {
       case Some("graduate") => GraduateSchool
@@ -94,5 +106,13 @@ class KyukoAPIController extends Controller {
     val f = KyukoService.fetch(school)
 
     f.map { list => Ok(Json.toJson(list.map(_._3))) }
+  }
+
+  private def parseLocalDateTime(datetime: String): Either[IllegalArgumentException, LocalDateTime] = {
+    try {
+      Right(LocalDateTime.parse(datetime))
+    } catch {
+      case e: IllegalArgumentException => Left(e)
+    }
   }
 }
