@@ -37,7 +37,7 @@ class TeacherServiceTest extends FlatSpec {
     val defaultOffset: Int = 0
     val defaultLimit: Int = 20
 
-    def select(offset: Int, limit: Int): Seq[Teacher] = ???
+    def select(offset: Int, limit: Int): Seq[Teacher] = Seq(teacher)
 
     def count(): Long = 1
   }
@@ -93,5 +93,22 @@ class TeacherServiceTest extends FlatSpec {
     assert(foundTeacher.createdAt === createdAt)
 
     assert(createdTeacher.name === "Bob")
+  }
+
+  it should "get teachers by page size" in {
+    val teachers = service.getByPage()
+
+    assert(teachers.size === 1)
+
+    val teacher = teachers.head
+    assert(teacher.id === id)
+    assert(teacher.name === name)
+    assert(teacher.createdAt === createdAt)
+  }
+
+  it should "count teacher size" in {
+    val count = service.count()
+
+    assert(count === 1)
   }
 }
