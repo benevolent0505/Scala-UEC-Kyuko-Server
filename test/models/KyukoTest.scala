@@ -18,7 +18,7 @@ class KyukoTest extends FlatSpec {
     val remark = "GW延長"
     val now = LocalDateTime.now
 
-    val kyuko = KyukoDate(id, lecture, date, remark, now)
+    val kyuko = KyukoDays(id, lecture, date, remark, now)
 
     assert(kyuko.id === id)
     assert(kyuko.lecture === lecture)

@@ -15,7 +15,7 @@ class KyukoAPIController extends Controller {
 
   case class Event(id: Long, title: String, start: LocalDateTime, url: String)
   object Event {
-    def apply(kyukoDate: KyukoDate): Event = {
+    def apply(kyukoDate: KyukoDays): Event = {
       val id = kyukoDate.id
       val title = kyukoDate.lecture.name
       val start = kyukoDate.date
@@ -52,8 +52,8 @@ class KyukoAPIController extends Controller {
     )
   }
 
-  implicit val kyukoDateToJson = new Writes[KyukoDate] {
-    def writes(kyukoDate: KyukoDate) = Json.obj(
+  implicit val kyukoDateToJson = new Writes[KyukoDays] {
+    def writes(kyukoDate: KyukoDays) = Json.obj(
       "id" -> kyukoDate.id,
       "lecture" -> kyukoDate.lecture,
       "date" -> kyukoDate.date.toString,
