@@ -61,7 +61,7 @@ object KyukoRepositoryImpl extends KyukoRepository {
            insert into KyukoDays
              (lecture_id, date, remark, created_at)
            values
-             (${kyukoDate.lecture.id}, ${kyukoDate.date}, ${kyukoDate.remark} ${kyukoDate.createdAt})
+             (${kyukoDate.lecture.id}, ${kyukoDate.date}, ${kyukoDate.remark}, ${kyukoDate.createdAt})
         """.updateAndReturnGeneratedKey.apply()
 
     KyukoDays(id = id, kyukoDate.lecture, kyukoDate.date, kyukoDate.remark, kyukoDate.createdAt)
