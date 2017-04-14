@@ -1,8 +1,12 @@
+lazy val commonSettings = Seq(
+  scalaVersion := "2.11.8"
+)
+
 lazy val root = (project in file("."))
   .settings(
+    commonSettings,
     name := """Scala-UEC-Kyuko-Server""",
     version := "1.0-SNAPSHOT",
-    scalaVersion := "2.11.8",
 
     libraryDependencies ++= Seq(
       evolutions,
@@ -34,13 +38,13 @@ lazy val root = (project in file("."))
 
 lazy val devUtil = (project in file("devUtil")).
   settings(
-    scalaVersion := "2.11.8"
+    commonSettings,
   )
   .dependsOn(root)
 
 lazy val fetch = (project in file("fetch")).
   settings(
-    name := "Kyuko-page-fetcher",
-    scalaVersion := "2.11.8"
+    commonSettings,
+    name := "Kyuko-page-fetcher"
   )
   .dependsOn(root)
