@@ -38,7 +38,7 @@ lazy val root = (project in file("."))
 
 lazy val devUtil = (project in file("devUtil")).
   settings(
-    commonSettings,
+    commonSettings
   )
   .dependsOn(root)
 
