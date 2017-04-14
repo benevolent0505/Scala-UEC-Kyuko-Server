@@ -45,6 +45,7 @@ lazy val devUtil = (project in file("devUtil")).
 lazy val fetch = (project in file("fetch")).
   settings(
     commonSettings,
-    name := "Kyuko-page-fetcher"
+    name := "Kyuko-page-fetcher",
+    javacOptions in run += "-Xmx=512M"
   )
   .dependsOn(root)
